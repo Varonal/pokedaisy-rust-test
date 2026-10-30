@@ -10,7 +10,7 @@ Reads app/.../companion/data/NativeReader.kt and writes:
   GameDataMigrationTest until phase 1's gate passes (then that file and this script go);
 
 and, with --apply, takes the config blocks (and the comments above them) out of NativeReader.kt.
-scripts/gen_gamedata.py then writes NativeConfigsGen.kt from the TOML.
+the Rust generator (tools/gamedata, `cargo run -p gamedata`) then writes NativeConfigsGen.kt from the TOML.
 
     python3 scripts/convert_native_configs.py [--apply]
 """

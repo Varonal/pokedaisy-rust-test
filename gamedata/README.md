@@ -2,8 +2,8 @@
 
 The per-game data every PokeDaisy platform builds from: one place to write a game's
 addresses, offsets and layouts, so a new game or a new field reaches every platform built from
-the same commit. Nothing reads these files at run time: `scripts/gen_gamedata.py` turns them into
-each platform's code, and that code is committed.
+the same commit. Nothing reads these files at run time: `tools/gamedata` (the `gen_gamedata` Rust binary,
+`cargo run -p gamedata`) turns them into each platform's code, and that code is committed.
 
 So far this holds the Gen 3 `NativeConfig`s (phase 1) and the records the 3DS / Linux companion
 reads (phase 2: retail FireRed / LeafGreen / Emerald's Pokédex, guide, trainer-card and dex-flag
@@ -32,8 +32,9 @@ gamedata/
 ## Commands
 
 ```
-make gamedata                              # regenerate every output (Kotlin and C)
-python3 scripts/gen_gamedata.py --check    # fails if it's stale (make check and CI run this)
+make gamedata                            # regenerate every output (Kotlin and C)
+cargo run -p gamedata -- --check         # fails if it's stale (make check and CI run this)
+cargo test -p gamedata                   # unit + golden tests (byte-for-byte vs the committed files)
 ```
 
 Never edit a generated file by hand (`NativeConfigsGen.kt`, `GameDataRecordsGen.kt`,
@@ -156,5 +157,7 @@ those of `PokedexTables` / `GuideTables`, `gen3_fly.toml` / `gen3_heal_warp.toml
 `gen3_pc.toml` `FieldItemFns` / `PartyItemFns` / `PcFns`. Each names its Kotlin class (`kotlin_class`,
 `kotlin_file`) and the generator checks the two agree, so a new field means adding it to both
 (with a default, or every config without a base has to set it). A schema for another class
-starts with `python3 scripts/gen_gamedata.py --new-schema <name> <File.kt> <Class>`. `version`
+starts with `python3 scripts/convert_native_configs.py --new-schema <name> <File.kt> <Class>`
+(the schema writer stayed in Python; the generator that checks schemas against the Kotlin
+classes is `tools/gamedata`). `version`
 goes up only when a field is renamed or removed.

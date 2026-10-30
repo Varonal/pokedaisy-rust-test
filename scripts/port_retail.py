@@ -21,7 +21,7 @@ no config of their own), it
      the strings the configs probe (dex category, trainer); item descriptions
      aren't written (the app reads them from the player's ROM: itemDescs),
   5. writes gamedata/gen3/ports/<game>.toml (one config per ROM, by game code +
-     revision) and runs scripts/gen_gamedata.py, app/.../companion/data/
+     revision) and regenerates the outputs with the Rust generator (`cargo run -p gamedata`), app/.../companion/data/
      RetailPortsGen.kt (titles by SHA1, names by code) and GameText<CODE>Gen.kt
      per game code, plus build/ports/ports.json for scripts/verify_ports.py,
      which boots each ROM headlessly with the English save and checks it.
@@ -831,7 +831,7 @@ def main():
             if p["code"][3] != "E":
                 write_text(p)
         write_ports(ports)
-        subprocess.run([sys.executable, os.path.join(HERE, "gen_gamedata.py")], check=True)
+        subprocess.run(["cargo", "run", "-p", "gamedata", "--quiet", "--release", "--manifest-path", os.path.join(HERE, "..", "Cargo.toml")], check=True, cwd=os.path.join(HERE, ".."))
         print("wrote gamedata/gen3/ports/ + RetailPortsGen.kt +", len({p['code'] for p in ports}), "GameText files;", OUT_JSON)
 
 
