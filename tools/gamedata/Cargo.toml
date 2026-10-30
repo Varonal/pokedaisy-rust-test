@@ -1,0 +1,17 @@
+[package]
+name = "gamedata"
+version = "0.1.0"
+edition = "2021"
+description = "Writes the per-game code every PokeDaisy platform builds from gamedata/ (the Rust gen_gamedata; see gamedata/README.md)"
+
+[[bin]]
+name = "gen_gamedata"
+path = "src/main.rs"
+
+[lib]
+name = "gamedata"
+path = "src/lib.rs"
+
+[dependencies]
+regex = "1"
+toml = "0.8"

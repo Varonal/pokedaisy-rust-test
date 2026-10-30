@@ -748,7 +748,7 @@ checks the result headlessly. What the port script does per ROM:
    category, the gym leader's name) and the FireReds' party art offsets, and writes
    `gamedata/gen3/ports/<game>.toml`: one config per game code + revision (`RETAIL_PORTS`
    in the generated `NativeConfigsGen.kt`, which `TelemetrySampler.otherRetailConfig` consults
-   first; it runs `scripts/gen_gamedata.py` itself), and `RetailPortsGen.kt`: titles by SHA1, the name sets.
+   first; it regenerates the outputs itself with `cargo run -p gamedata`), and `RetailPortsGen.kt`: titles by SHA1, the name sets.
    `build/ports/ports.json` records how each address was found.
 
 `verify_ports.py` boots every ported ROM and its English one (pokedaisy-capture,

@@ -1,0 +1,3 @@
+[workspace]
+members = ["tools/gamedata"]
+resolver = "2"

@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Writes the per-game code every platform builds from gamedata/ (see gamedata/README.md).
+"""Reference implementation of the gamedata generator - the Rust one in tools/gamedata
+(`cargo run -p gamedata`) is what builds and CI run; it produces byte-identical output and
+tools/gamedata/tests/golden.rs proves it against this script. Kept for cross-checking.
+
+Writes the per-game code every platform builds from gamedata/ (see gamedata/README.md).
 
 gamedata/ is where every platform's per-game data comes from; this is the only thing that
 reads it. It checks every file against the schemas in gamedata/schema/ (and each schema

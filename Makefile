@@ -46,7 +46,7 @@ run: install ## Build + install + launch the library screen on the connected dev
 	adb shell am start -n $(PKG)/.LibraryActivity
 
 gamedata: ## Regenerate the per-game code from gamedata/ (NativeConfigsGen.kt; see gamedata/README.md)
-	python3 scripts/gen_gamedata.py
+	cargo run -p gamedata --quiet --release --manifest-path Cargo.toml
 
 test: ## JVM unit tests (fixture decode tests, UI logic)
 	./gradlew :app:testDebugUnitTest
@@ -58,7 +58,7 @@ clean: ## gradle clean
 
 check: ## Everything a PR must pass: unit tests, translations, game data, ui-preview stress + docs search, docs, debug build
 	python3 scripts/check_translations.py
-	python3 scripts/gen_gamedata.py --check
+	cargo run -p gamedata --quiet --release --manifest-path Cargo.toml -- --check
 	$(MAKE) -C 3ds test-configs-gen
 	./gradlew :app:testDebugUnitTest :app:assembleDebug
 	./gradlew -p ui-preview stress

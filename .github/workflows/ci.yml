@@ -46,9 +46,14 @@ jobs:
       - name: Translations
         run: python3 scripts/check_translations.py
 
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Rust unit + golden tests (tools/gamedata)
+        run: cargo test -p gamedata --release
+
       # The per-game code generated from gamedata/ must match it (gamedata/README.md).
       - name: Game data
-        run: python3 scripts/gen_gamedata.py --check
+        run: cargo run -p gamedata --release -- --check
 
       # ROM-backed tests skip here (no ROMs in CI - they run on the release runner);
       # fixtures, guards, Paparazzi renders and everything else run.
